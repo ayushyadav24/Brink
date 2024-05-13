@@ -11,13 +11,13 @@ class Splash_Screen_t extends StatefulWidget{
 }
 class _Splash_ScreenState extends State<Splash_Screen_t> {
   @override
-  void initState(){
-    super.initState();
-    Timer(Duration(seconds: 2),
-            () {
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>FacultyHomePage()));
-        });
-  }
+  // void initState(){
+  //   super.initState();
+  //   Timer(Duration(seconds: 2),
+  //           () {
+  //         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>FacultyHomePage()));
+  //       });
+  // }
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(

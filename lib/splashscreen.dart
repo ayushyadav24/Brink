@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:brink_app/dashboardfinal.dart';
+import 'package:brink_app/welcome.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class _Splash_ScreenState extends State<Splash_Screen> {
     super.initState();
     Timer(Duration(seconds: 2),
             () {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>StudentHomePage()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>WelcomeScreen()));
             });
 }
   Widget build(BuildContext context) {

@@ -1,8 +1,27 @@
+import 'dart:developer';
+
+import 'package:brink_app/auth/auth_services.dart';
+import 'package:brink_app/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:brink_app/login.dart';
 
-class RegistrationScreen extends StatelessWidget {
-  const RegistrationScreen({super.key});
+class RegistrationScreen extends StatefulWidget {
+  RegistrationScreen({super.key});
+
+  @override
+  State<RegistrationScreen> createState() => _RegistrationScreenState();
+}
+
+class _RegistrationScreenState extends State<RegistrationScreen> {
+  final _auth = AuthService();
+
+  final _name = TextEditingController();
+
+  final _rollNo = TextEditingController();
+
+  final _email = TextEditingController();
+
+  final _password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +59,7 @@ class RegistrationScreen extends StatelessWidget {
                     borderSide: BorderSide(color: Colors.black),
                   ),
                 ),
+                controller: _name,
               ),
               const SizedBox(height: 15),
 
@@ -56,6 +76,7 @@ class RegistrationScreen extends StatelessWidget {
                     borderSide: BorderSide(color: Colors.black),
                   ),
                 ),
+                controller: _rollNo,
               ),
               const SizedBox(height: 15),
 
@@ -72,6 +93,7 @@ class RegistrationScreen extends StatelessWidget {
                     borderSide: BorderSide(color: Colors.black),
                   ),
                 ),
+                controller: _email,
               ),
               const SizedBox(height: 15),
 
@@ -88,6 +110,7 @@ class RegistrationScreen extends StatelessWidget {
                     borderSide: BorderSide(color: Colors.black),
                   ),
                 ),
+                controller: _password,
               ),
               const SizedBox(height: 30),
 
@@ -95,10 +118,11 @@ class RegistrationScreen extends StatelessWidget {
               SizedBox(
                 width: screenWidth * 0.8, // Take 80% of the screen width
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const RoleBasedLoginScreen()));
-                    // Implement registration logic
-                  },
+                  onPressed: _register,
+                  // onPressed: () {
+                  //   Navigator.push(context, MaterialPageRoute(builder: (context) => const RoleBasedLoginScreen()));
+                  //   // Implement registration logic
+                  // },
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.black,
                     backgroundColor: Colors.white, // Black text
@@ -118,18 +142,46 @@ class RegistrationScreen extends StatelessWidget {
               ),
               const SizedBox(height: 30),
               // Innovative message
-              const Text(
-                'Unlock the doors to endless possibilities!',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Already Registered? ',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  InkWell(
+                    onTap: ()=>goToLogin(context),
+                    child: Center(child: const Text(" Login", style: TextStyle(color: Colors.black))),
+                  )
+                ],
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  goToLogin(BuildContext context) => Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => const RoleBasedLoginScreen()),
+  );
+
+  goToHome(BuildContext context) => Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+  );
+
+  _register() async {
+    final user =
+    await _auth.createUserWithEmailAndPassword(_email.text, _password.text);
+    if (user != null) {
+      log("User Created Succesfully");
+      goToHome(context);
+    }
   }
 }

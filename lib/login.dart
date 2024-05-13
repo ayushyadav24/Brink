@@ -1,10 +1,12 @@
+import 'dart:developer';
+import 'package:brink_app/AluminiProfile.dart';
+import 'package:brink_app/auth/auth_services.dart';
+import 'package:brink_app/dashboardfinal.dart';
 import 'package:flutter/material.dart';
-import 'package:brink_app/splashscreen.dart';
-import 'package:brink_app/splashscreen_t.dart';
-import 'package:brink_app/splashscreen_a.dart';
+import 'faculty_home_page.dart';
 
 class RoleBasedLoginScreen extends StatefulWidget {
-  const RoleBasedLoginScreen({super.key});
+  const RoleBasedLoginScreen({Key? key}) : super(key: key);
 
   @override
   _RoleBasedLoginScreenState createState() => _RoleBasedLoginScreenState();
@@ -12,14 +14,24 @@ class RoleBasedLoginScreen extends StatefulWidget {
 
 class _RoleBasedLoginScreenState extends State<RoleBasedLoginScreen> {
   String _selectedRole = '';
+  final _auth = AuthService();
+  final _email = TextEditingController();
+  final _password = TextEditingController();
+
+  @override
+  void dispose() {
+    // Dispose the controllers when the screen is disposed to avoid memory leaks
+    _email.dispose();
+    _password.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Get screen size
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF3778FF), // Background color
+      backgroundColor: const Color(0xFF3778FF),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
         child: Column(
@@ -35,7 +47,6 @@ class _RoleBasedLoginScreenState extends State<RoleBasedLoginScreen> {
               ),
             ),
             const SizedBox(height: 30),
-            // Role selection buttons
             ToggleButtons(
               isSelected: [
                 _selectedRole == 'Teacher',
@@ -44,7 +55,10 @@ class _RoleBasedLoginScreenState extends State<RoleBasedLoginScreen> {
               ],
               onPressed: (int newIndex) {
                 setState(() {
+                  // Reset the selected role and clear the text fields
                   _selectedRole = ['Teacher', 'Student', 'Alumni'][newIndex];
+                  _email.clear();
+                  _password.clear();
                 });
               },
               borderRadius: BorderRadius.circular(20),
@@ -58,7 +72,6 @@ class _RoleBasedLoginScreenState extends State<RoleBasedLoginScreen> {
               ],
             ),
             const SizedBox(height: 30),
-            // Email field
             TextFormField(
               style: const TextStyle(color: Colors.white),
               decoration: const InputDecoration(
@@ -71,9 +84,9 @@ class _RoleBasedLoginScreenState extends State<RoleBasedLoginScreen> {
                   borderSide: BorderSide(color: Colors.white),
                 ),
               ),
+              controller: _email,
             ),
             const SizedBox(height: 15),
-            // Password field
             TextFormField(
               style: const TextStyle(color: Colors.white),
               obscureText: true,
@@ -87,34 +100,16 @@ class _RoleBasedLoginScreenState extends State<RoleBasedLoginScreen> {
                   borderSide: BorderSide(color: Colors.white),
                 ),
               ),
+              controller: _password,
             ),
             const SizedBox(height: 30),
-            // Login button
             SizedBox(
               width: screenWidth * 0.8,
               child: ElevatedButton(
-                onPressed: () {
-                  if (_selectedRole.isNotEmpty) {
-                    if (_selectedRole == 'Teacher') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Splash_Screen_t()),
-                      );
-                    } else if (_selectedRole == 'Student') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Splash_Screen()),
-                      );
-                    } else if (_selectedRole == 'Alumni') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Splash_Screen_a()),
-                      );
-                    }
-                  }
-                },
+                onPressed: _login,
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.black, backgroundColor: Colors.white, // Black text
+                  foregroundColor: Colors.black,
+                  backgroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -145,62 +140,31 @@ class _RoleBasedLoginScreenState extends State<RoleBasedLoginScreen> {
       ),
     );
   }
-}
 
-class TeacherDashboard extends StatelessWidget {
-  const TeacherDashboard({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Teacher Dashboard'),
-      ),
-      body: const Center(
-        child: Text(
-          'Welcome to Teacher Dashboard!',
-          style: TextStyle(fontSize: 24),
-        ),
-      ),
+  _login() async {
+    final user = await _auth.loginUserWithEmailAndPassword(
+      _email.text,
+      _password.text,
     );
-  }
-}
 
-class StudentDashboard extends StatelessWidget {
-  const StudentDashboard({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Student Dashboard'),
-      ),
-      body: const Center(
-        child: Text(
-          'Welcome to Student Dashboard!',
-          style: TextStyle(fontSize: 24),
-        ),
-      ),
-    );
-  }
-}
-
-class AlumniDashboard extends StatelessWidget {
-  const AlumniDashboard({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Alumni Dashboard'),
-      ),
-      body: const Center(
-        child: Text(
-          'Welcome to Alumni Dashboard!',
-          style: TextStyle(fontSize: 24),
-        ),
-      ),
-    );
+    if (user != null && _selectedRole.isNotEmpty) {
+      if (_selectedRole == 'Teacher') {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => FacultyHomePage()),
+        );
+      } else if (_selectedRole == 'Student') {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => StudentHomePage()),
+        );
+      } else if (_selectedRole == 'Alumni') {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => AlumniProfileApp()),
+        );
+      }
+    }
   }
 }
 

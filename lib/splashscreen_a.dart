@@ -12,13 +12,13 @@ class Splash_Screen_a extends StatefulWidget{
 }
 class _Splash_ScreenState extends State<Splash_Screen_a> {
   @override
-  void initState(){
-    super.initState();
-    Timer(Duration(seconds: 2),
-            () {
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AlumniProfileApp()));
-        });
-  }
+  // void initState(){
+  //   super.initState();
+  //   Timer(Duration(seconds: 2),
+  //           () {
+  //         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AlumniProfileApp()));
+  //       });
+  // }
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(

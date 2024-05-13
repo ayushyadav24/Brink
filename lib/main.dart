@@ -1,7 +1,21 @@
+import 'package:brink_app/splashscreen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:brink_app/welcome.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+      options: FirebaseOptions(
+        apiKey: 'AIzaSyBz78nL35wZ9twsliAVXsoZR16GxAo_b_M',
+        appId: '1:41087094403:android:695a176f004e5a67f015b6',
+        messagingSenderId: '41087094403',
+        projectId: 'brink-firebase',
+        storageBucket: 'brink-firebase.appspot.com',
+      )
+  );
+
   runApp(const MyApp());
 }
 
@@ -33,7 +47,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const WelcomeScreen(),
+      home: Splash_Screen(),
     );
   }
 }

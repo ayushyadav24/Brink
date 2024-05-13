@@ -1,3 +1,4 @@
+import 'package:brink_app/auth/phone_login.dart';
 import 'package:flutter/material.dart';
 import 'package:brink_app/login.dart';
 import 'package:brink_app/register.dart';
@@ -39,7 +40,7 @@ class WelcomeScreen extends StatelessWidget {
                   // Navigate to the login screen
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const RoleBasedLoginScreen()),
+                    MaterialPageRoute(builder: (context) => RoleBasedLoginScreen()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
@@ -50,7 +51,37 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                 ),
                 child: const Text(
-                  'Login',
+                  'Login Using Email ID',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 15),
+
+            // Login button
+            SizedBox(
+              width: screenWidth * 0.8,
+              child: ElevatedButton(
+                onPressed: () {
+                  // Navigate to the login screen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => phoneLoginScreen()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.black, backgroundColor: Colors.white, // Black text
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: const Text(
+                  'Login Using Phone Number',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -69,7 +100,7 @@ class WelcomeScreen extends StatelessWidget {
                   // Navigate to the Register screen
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const RegistrationScreen()),
+                    MaterialPageRoute(builder: (context) => RegistrationScreen()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
