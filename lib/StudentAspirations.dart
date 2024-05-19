@@ -1,16 +1,16 @@
+import 'package:brink_app/viewUserIDs.dart';
 import 'package:flutter/material.dart';
 import 'package:brink_app/faculty_home_page.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: FacultyHomePage(),
-  ));
-}
-
-class StudentAspirations extends StatelessWidget {
+class StudentAspirations extends StatefulWidget {
   const StudentAspirations({Key? key}) : super(key: key);
 
+  @override
+  State<StudentAspirations> createState() => _StudentAspirationsState();
+}
+
+class _StudentAspirationsState extends State<StudentAspirations> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +50,13 @@ class StudentAspirations extends StatelessWidget {
                 minWidth: 300,
                 height: 60,
                 onPressed: (){
-                  launchUrlString('https://docs.google.com/spreadsheets/d/1cTIuA7ALIfxc3NS-R2UCK1XVGUCXau4Q/edit?usp=sharing&ouid=117953397339168428723&rtpof=true&sd=true');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ViewUserIDs(),
+                    ),
+                  );
+                  // launchUrlString('https://docs.google.com/spreadsheets/d/1cTIuA7ALIfxc3NS-R2UCK1XVGUCXau4Q/edit?usp=sharing&ouid=117953397339168428723&rtpof=true&sd=true');
                 },
                 shape: RoundedRectangleBorder(
                     side: const BorderSide(

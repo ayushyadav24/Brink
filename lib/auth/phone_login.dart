@@ -77,7 +77,7 @@ class _phoneLoginScreenState extends State<phoneLoginScreen> {
                     },
 
                     codeAutoRetrievalTimeout: (verificationId) {
-                      log("Auto Retireval timeout");
+                      log("Auto Retrieval timeout");
                     },
                   );
                 },

@@ -64,7 +64,7 @@ class FacultyHomePage extends StatelessWidget {
                   _buildResourceButton(
                     context,
                     'See student Aspirations',
-                    const StudentAspirations(),
+                     StudentAspirations(),
                   ),
                 ],
               ),
